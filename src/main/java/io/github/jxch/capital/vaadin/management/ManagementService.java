@@ -1,5 +1,9 @@
 package io.github.jxch.capital.vaadin.management;
 
-public interface ManagementService {
+import io.github.jxch.capital.vaadin.management.page.MPage;
+
+public interface ManagementService<T> {
+
+    MPage<T> findAll(int page, int size);
 
 }

@@ -5,26 +5,29 @@ import cn.hutool.extra.spring.SpringUtil;
 import org.jsoup.internal.StringUtil;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ManagementUtil {
 
-    public static Map<String, ManagementService> getManagementServices() {
-        Map<String, ManagementService> services = new HashMap<>();
+    public static Map<String, ManagementService<?>> getManagementServices() {
+        Map<String, ManagementService<?>> services = new HashMap<>();
         SpringUtil.getBeansOfType(ManagementService.class).forEach((beanName, managementService) -> {
             services.put(getServiceName(managementService), managementService);
         });
         return services;
     }
 
-    public static List<ManagementService> getSortedManagementServices() {
-        return SpringUtil.getBeansOfType(ManagementService.class).values().stream()
-                .sorted(new AnnotationAwareOrderComparator()).toList();
+    public static List<ManagementService<?>> getSortedManagementServices() {
+        List<ManagementService<?>> services = new ArrayList<>();
+        SpringUtil.getBeansOfType(ManagementService.class).values().stream()
+                .sorted(new AnnotationAwareOrderComparator()).forEach(services::add);
+        return services;
     }
 
-    public static String getServiceName(ManagementService managementService) {
+    public static String getServiceName(ManagementService<?> managementService) {
         String name = managementService.getClass().getSimpleName();
         if (AnnotationUtil.hasAnnotation(managementService.getClass(), Management.class)) {
             String theName = AnnotationUtil.getAnnotation(managementService.getClass(), Management.class).name();

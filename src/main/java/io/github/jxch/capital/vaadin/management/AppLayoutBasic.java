@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AppLayoutBasic extends AppLayout implements VaadinServiceInitListener {
-    private static final List<ManagementService> SERVICES = new ArrayList<>();
+    private static final List<ManagementService<?>> SERVICES = new ArrayList<>();
 
     public AppLayoutBasic() {
         DrawerToggle toggle = new DrawerToggle();

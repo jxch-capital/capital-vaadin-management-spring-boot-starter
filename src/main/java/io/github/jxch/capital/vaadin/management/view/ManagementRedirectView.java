@@ -15,7 +15,7 @@ public class ManagementRedirectView extends Div implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        List<ManagementService> services = ManagementUtil.getSortedManagementServices();
+        List<ManagementService<?>> services = ManagementUtil.getSortedManagementServices();
         if (!services.isEmpty()) {
             event.forwardTo("management/" + ManagementUtil.getServiceName(services.get(0)));
         }
